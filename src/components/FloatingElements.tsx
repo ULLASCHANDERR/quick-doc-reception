@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Stethoscope, Heart, Pill, FirstAid } from "lucide-react";
+import { Stethoscope, Heart, Pill, Syringe } from "lucide-react";
 
 const FloatingElements = () => {
   return (
@@ -12,7 +12,7 @@ const FloatingElements = () => {
         <Stethoscope size={48} />
       </div>
       <div className="absolute top-40 right-20 text-medical-green/20 animate-float" style={{ animationDelay: "1s" }}>
-        <FirstAid size={40} />
+        <Syringe size={40} />
       </div>
       <div className="absolute bottom-30 right-10 text-accent/20 animate-float" style={{ animationDelay: "2s" }}>
         <Pill size={32} />
