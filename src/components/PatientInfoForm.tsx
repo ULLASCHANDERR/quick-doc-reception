@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -82,14 +81,23 @@ const PatientInfoForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
+      <div className="flex items-center mb-2 text-primary">
+        <User size={18} className="mr-2" /> 
+        <h2 className="text-xl font-semibold">New Patient Registration</h2>
+      </div>
+      
+      <p className="text-sm text-gray-500 mb-6 bg-blue-50 p-3 rounded-lg border border-blue-100">
+        Welcome! Please fill out this form to register as a new patient. Fields marked with an asterisk (*) are required.
+      </p>
+      
       <div className="form-section">
         <div className="flex items-center mb-2 text-primary">
           <User size={18} className="mr-2" /> 
-          <h2 className="text-xl font-semibold">Personal Information</h2>
+          <h2 className="text-lg font-semibold">Personal Information</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="firstName">First Name</Label>
+            <Label htmlFor="firstName">First Name*</Label>
             <Input
               id="firstName"
               name="firstName"
@@ -102,7 +110,7 @@ const PatientInfoForm = () => {
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="lastName">Last Name</Label>
+            <Label htmlFor="lastName">Last Name*</Label>
             <Input
               id="lastName"
               name="lastName"
@@ -115,7 +123,7 @@ const PatientInfoForm = () => {
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="phone">Phone Number</Label>
+            <Label htmlFor="phone">Phone Number*</Label>
             <div className="relative">
               <Phone size={16} className="absolute left-3 top-3 text-gray-400" />
               <Input
@@ -123,6 +131,7 @@ const PatientInfoForm = () => {
                 name="phone"
                 value={formData.phone}
                 onChange={handleInputChange}
+                required
                 className="pl-9 border-medical-blue/20 focus-visible:ring-medical-blue"
                 placeholder="(000) 000-0000"
               />
@@ -143,13 +152,14 @@ const PatientInfoForm = () => {
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="dateOfBirth">Date of Birth</Label>
+            <Label htmlFor="dateOfBirth">Date of Birth*</Label>
             <Input
               id="dateOfBirth"
               name="dateOfBirth"
               type="date"
               value={formData.dateOfBirth}
               onChange={handleInputChange}
+              required
               className="border-medical-blue/20 focus-visible:ring-medical-blue"
             />
           </div>
@@ -159,15 +169,16 @@ const PatientInfoForm = () => {
       <div className="form-section">
         <div className="flex items-center mb-2 text-primary">
           <FileText size={18} className="mr-2" />
-          <h2 className="text-xl font-semibold">Appointment Details</h2>
+          <h2 className="text-lg font-semibold">Appointment Details</h2>
         </div>
         
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="appointmentType">Appointment Type</Label>
+            <Label htmlFor="appointmentType">Appointment Type*</Label>
             <Select 
               onValueChange={(value) => handleSelectChange(value, "appointmentType")}
               value={formData.appointmentType}
+              required
             >
               <SelectTrigger className="border-medical-blue/20 focus:ring-medical-blue">
                 <SelectValue placeholder="Select appointment type" />
@@ -185,27 +196,27 @@ const PatientInfoForm = () => {
           <div className="space-y-2">
             <div className="flex items-center mb-2">
               <Clock size={18} className="mr-2 text-primary" />
-              <Label>Urgency Level</Label>
+              <Label>Urgency Level*</Label>
             </div>
-            <RadioGroup 
-              defaultValue="regular" 
-              value={formData.urgency}
-              onValueChange={handleUrgencyChange}
-              className="flex flex-col space-y-1"
-            >
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="regular" id="regular" />
-                <Label htmlFor="regular" className="font-normal">Regular (Non-urgent)</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="soon" id="soon" />
-                <Label htmlFor="soon" className="font-normal">Need to be seen soon</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="urgent" id="urgent" />
-                <Label htmlFor="urgent" className="font-normal">Urgent (Severe symptoms)</Label>
-              </div>
-            </RadioGroup>
+            
+            <div className="grid grid-cols-3 gap-2">
+              {[
+                { value: "regular", label: "Regular", color: "bg-green-100 hover:bg-green-200 border-green-300" },
+                { value: "soon", label: "Soon", color: "bg-yellow-100 hover:bg-yellow-200 border-yellow-300" },
+                { value: "urgent", label: "Urgent", color: "bg-red-100 hover:bg-red-200 border-red-300" }
+              ].map((option) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  className={`p-3 rounded border ${option.color} ${
+                    formData.urgency === option.value ? "ring-2 ring-offset-1 ring-primary" : ""
+                  }`}
+                  onClick={() => handleUrgencyChange(option.value)}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -213,17 +224,18 @@ const PatientInfoForm = () => {
       <div className="form-section">
         <div className="flex items-center mb-2 text-primary">
           <MessageSquare size={18} className="mr-2" />
-          <h2 className="text-xl font-semibold">Symptoms & Health Information</h2>
+          <h2 className="text-lg font-semibold">Symptoms & Health Information</h2>
         </div>
         
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="symptoms">Describe Your Symptoms</Label>
+            <Label htmlFor="symptoms">Describe Your Symptoms*</Label>
             <Textarea
               id="symptoms"
               name="symptoms"
               value={formData.symptoms}
               onChange={handleInputChange}
+              required
               placeholder="Please describe what brought you in today..."
               className="min-h-[120px] border-medical-blue/20 focus-visible:ring-medical-blue"
             />
@@ -264,7 +276,7 @@ const PatientInfoForm = () => {
           size="lg"
         >
           <ClipboardCheck size={18} />
-          Complete Check-in
+          Complete Registration
         </Button>
       </div>
     </form>
