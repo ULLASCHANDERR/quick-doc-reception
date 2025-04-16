@@ -18,13 +18,13 @@ const Index = () => {
         <ClinicHeader />
         
         <div className="max-w-4xl mx-auto mb-6">
-          <div className="bg-white/80 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-medical-teal/10 flex items-center justify-center">
+          <div className="bg-white/80 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-medical-teal/10">
             <Tabs 
-              defaultValue="quick" 
-              className="w-full max-w-md"
+              value={activeForm}
               onValueChange={(value) => setActiveForm(value as "quick" | "full")}
+              className="w-full max-w-md mx-auto"
             >
-              <TabsList className="grid grid-cols-2 mb-2">
+              <TabsList className="grid grid-cols-2 mb-2 w-full">
                 <TabsTrigger value="quick" className="flex items-center gap-2">
                   <Shuffle size={16} />
                   <span>Quick Check-in</span>
@@ -34,16 +34,16 @@ const Index = () => {
                   <span>New Patient</span>
                 </TabsTrigger>
               </TabsList>
+              
+              <TabsContent value="quick">
+                <QuickCheckIn onSwitchToFullForm={() => setActiveForm("full")} />
+              </TabsContent>
+              
+              <TabsContent value="full">
+                <PatientInfoForm />
+              </TabsContent>
             </Tabs>
           </div>
-        </div>
-        
-        <div className="form-card max-w-4xl mx-auto">
-          {activeForm === "quick" ? (
-            <QuickCheckIn onSwitchToFullForm={() => setActiveForm("full")} />
-          ) : (
-            <PatientInfoForm />
-          )}
         </div>
         
         <footer className="mt-10 text-center text-sm text-gray-500">
