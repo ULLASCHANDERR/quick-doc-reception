@@ -43,7 +43,7 @@ export interface PatientData {
 }
 
 // Simulates looking up a patient by ID
-export const findPatientById = (patientId: string): PatientData | null => {
+export const findPatientById = (patientId: string): Promise<PatientData | null> => {
   const patient = mockPatientDatabase.find((p) => p.id === patientId);
   
   // Simulate API delay
