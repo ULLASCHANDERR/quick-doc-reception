@@ -19,6 +19,11 @@ const Index = () => {
         
         <div className="max-w-4xl mx-auto mb-6">
           <div className="bg-white/80 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-medical-teal/10">
+            <div className="text-center mb-6">
+              <h1 className="text-2xl md:text-3xl font-bold text-primary mb-2">Welcome to QuickDoc</h1>
+              <p className="text-gray-600">Fast, efficient healthcare check-in</p>
+            </div>
+            
             <Tabs 
               value={activeForm}
               onValueChange={(value) => setActiveForm(value as "quick" | "full")}
@@ -48,6 +53,7 @@ const Index = () => {
         
         <footer className="mt-10 text-center text-sm text-gray-500">
           <p>© {new Date().getFullYear()} QuickDoc Medical Center • Privacy Policy</p>
+          <p className="mt-1 text-xs text-gray-400">This is a demo application. No real medical advice is provided.</p>
         </footer>
       </div>
     </div>
