@@ -24,6 +24,9 @@ export const analyzeSymptoms = async (symptoms: string): Promise<AnalysisResult>
     triageRecommendation: "standard"
   };
 
+  console.log("Analyzing symptoms:", symptoms);
+  console.log("Analysis result:", mockAnalysis);
+
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(mockAnalysis);
@@ -33,9 +36,16 @@ export const analyzeSymptoms = async (symptoms: string): Promise<AnalysisResult>
 
 // Simulate generating a PDF report
 export const generatePatientReport = async (patientData: PatientData, analysisResults: AnalysisResult): Promise<string> => {
+  console.log("Generating PDF for patient:", patientData);
+  console.log("With analysis results:", analysisResults);
+  
+  // In a real application, we would generate an actual PDF with the patient data and analysis
+  const reportName = `patient-report-${patientData.id}.pdf`;
+  
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve(`patient-report-${patientData.id}.pdf`);
+      console.log("PDF generated:", reportName);
+      resolve(reportName);
     }, 800);
   });
 };
