@@ -9,16 +9,217 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      analysis_results: {
+        Row: {
+          check_in_id: string
+          created_at: string
+          doctor_notes: string | null
+          id: string
+          possible_conditions: Json
+          recommended_actions: Json
+          severity: string
+          specialty: Database["public"]["Enums"]["doctor_specialty"]
+          triage_recommendation: string
+        }
+        Insert: {
+          check_in_id: string
+          created_at?: string
+          doctor_notes?: string | null
+          id?: string
+          possible_conditions: Json
+          recommended_actions: Json
+          severity: string
+          specialty: Database["public"]["Enums"]["doctor_specialty"]
+          triage_recommendation: string
+        }
+        Update: {
+          check_in_id?: string
+          created_at?: string
+          doctor_notes?: string | null
+          id?: string
+          possible_conditions?: Json
+          recommended_actions?: Json
+          severity?: string
+          specialty?: Database["public"]["Enums"]["doctor_specialty"]
+          triage_recommendation?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "analysis_results_check_in_id_fkey"
+            columns: ["check_in_id"]
+            isOneToOne: false
+            referencedRelation: "check_ins"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      check_in_symptoms: {
+        Row: {
+          check_in_id: string
+          id: string
+          symptom_id: string
+        }
+        Insert: {
+          check_in_id: string
+          id?: string
+          symptom_id: string
+        }
+        Update: {
+          check_in_id?: string
+          id?: string
+          symptom_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "check_in_symptoms_check_in_id_fkey"
+            columns: ["check_in_id"]
+            isOneToOne: false
+            referencedRelation: "check_ins"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "check_in_symptoms_symptom_id_fkey"
+            columns: ["symptom_id"]
+            isOneToOne: false
+            referencedRelation: "symptoms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      check_ins: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          patient_id: string
+          urgency: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          id?: string
+          patient_id: string
+          urgency: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          patient_id?: string
+          urgency?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "check_ins_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      patient_conditions: {
+        Row: {
+          condition_name: string
+          created_at: string
+          id: string
+          patient_id: string
+        }
+        Insert: {
+          condition_name: string
+          created_at?: string
+          id?: string
+          patient_id: string
+        }
+        Update: {
+          condition_name?: string
+          created_at?: string
+          id?: string
+          patient_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patient_conditions_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      patients: {
+        Row: {
+          created_at: string
+          date_of_birth: string
+          email: string | null
+          first_name: string
+          id: string
+          last_name: string
+          phone: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          date_of_birth: string
+          email?: string | null
+          first_name: string
+          id?: string
+          last_name: string
+          phone: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          date_of_birth?: string
+          email?: string | null
+          first_name?: string
+          id?: string
+          last_name?: string
+          phone?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      symptoms: {
+        Row: {
+          id: string
+          name: string
+        }
+        Insert: {
+          id?: string
+          name: string
+        }
+        Update: {
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      extract_symptoms: {
+        Args: { symptom_text: string }
+        Returns: {
+          symptom_id: string
+          symptom_name: string
+        }[]
+      }
     }
     Enums: {
-      [_ in never]: never
+      doctor_specialty:
+        | "general_medicine"
+        | "cardiology"
+        | "neurology"
+        | "dermatology"
+        | "orthopedics"
+        | "pediatrics"
+        | "psychiatry"
+        | "ophthalmology"
+        | "ent"
+        | "pulmonology"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -133,6 +334,19 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      doctor_specialty: [
+        "general_medicine",
+        "cardiology",
+        "neurology",
+        "dermatology",
+        "orthopedics",
+        "pediatrics",
+        "psychiatry",
+        "ophthalmology",
+        "ent",
+        "pulmonology",
+      ],
+    },
   },
 } as const
